@@ -31,7 +31,7 @@
     </div>
     <h2>处理用户输入</h2>
     <div id="app-5">
-        <p>{{ message }}</p>
+        <p>{{ message }} || {{ ReverseMessage}}</p>
         <button v-on:mouseover="reverseMessage">逆转消息</button>
     </div>
     <div id="app-6">
@@ -85,6 +85,11 @@
         methods: {
             reverseMessage: function () {
                 this.message = this.message.split('').reverse().join('')
+            }
+        },
+        computed:{
+            ReverseMessage: function () {
+                return this.message.split('').reverse().join('')
             }
         }
     });
