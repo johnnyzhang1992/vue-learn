@@ -65,12 +65,7 @@ var vm = new Vue({
 
 # 模板语法
 
-
-
-
-
-
-
-
-
 > vm(ViewModel的简称)
+    
+    console.log('this is a code pra')
+    
