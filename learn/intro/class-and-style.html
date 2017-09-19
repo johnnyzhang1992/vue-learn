@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>计算属性和观察者</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <!--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->
+    <script src="../../node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+<div class="content">
+    <div id="class" v-bind:class="classObject">class and style</div>
+    <div id="class1" v-bind:class="[activeClass, errorClass]">class and style</div>
+    <div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }" id="style1">style1</div>
+    <div v-bind:style="styleObject" id="style2">style2</div>
+</div>
+<script>
+    var vu = new Vue({
+        el: '#class',
+        data: {
+            isActive: true,
+            error: false
+        },
+        computed: {
+            classObject: function () {
+                return {
+                    active: this.isActive && !this.error,
+                    'text-danger': this.error && this.error.type === 'fatal'
+                }
+            }
+        }
+    });
+    var vu1 = new Vue({
+        el:'#class1',
+        data: {
+            activeClass: 'active',
+            errorClass: 'text-danger'
+        }
+    });
+    var vu2 = new Vue({
+        el:'#style1',
+        data:{
+            activeColor: 'red',
+            fontSize: '20'
+        }
+    });
+    var vu3 = new Vue({
+        el:'#style2',
+        data: {
+            styleObject: {
+                color: 'red',
+                fontSize: '13px'
+            }
+        }
+    })
+</script>
+</body>
+</html>
