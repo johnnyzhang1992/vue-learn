@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>表单输入绑定</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <!--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->
+    <script src="../../node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+<div class="content">
+    <div class="textarea">
+        <h2>多行文本输入</h2>
+        <span>Multiline message is:</span>
+        <p style="white-space: pre-line;">{{ message }}</p>
+        <br>
+        <textarea v-model="message" placeholder="add multiple lines"></textarea>
+    </div>
+    <div id="checkbox">
+        <h2>checkbox</h2>
+        <input type="checkbox" v-model="checked">
+        <label for="checkbox">{{ checked }}</label>
+    </div>
+    <div id='example-3'>
+        <h2>多选</h2>
+        <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+        <label for="jack">Jack</label>
+        <input type="checkbox" id="john" value="John" v-model="checkedNames">
+        <label for="john">John</label>
+        <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+        <label for="mike">Mike</label>
+        <br>
+        <span>Checked names: {{ checkedNames }}</span>
+    </div>
+    <div id="example-4">
+        <h2>单选按钮</h2>
+        <input type="radio" id="one" value="One" v-model="picked">
+        <label for="one">One</label>
+        <br>
+        <input type="radio" id="two" value="Two" v-model="picked">
+        <label for="two">Two</label>
+        <br>
+        <span>Picked: {{ picked }}</span>
+    </div>
+    <div id="example-5">
+        <select v-model="selected">
+            <option disabled value="">请选择</option>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <span>Selected: {{ selected }}</span>
+    </div>
+</div>
+<script>
+    var vm = new Vue({
+        el:'.textarea',
+        data:{
+            message: "moren"
+        }
+    });
+    var vm1 = new Vue({
+        el:'#checkbox',
+        data:{
+          checked: "true"
+        }
+    });
+    var vm3 = new Vue({
+        el: '#example-3',
+        data: {
+            checkedNames: []
+        }
+    });
+    var vm4 = new Vue({
+        el: '#example-4',
+        data: {
+            picked: ''
+        }
+    });
+    var vm5 = new Vue({
+        el: '#example-5',
+        data: {
+            selected: ''
+        }
+    })
+</script>
+</body>
+</html>
