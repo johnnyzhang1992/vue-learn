@@ -15,7 +15,7 @@
         <span>Multiline message is:</span>
         <p style="white-space: pre-line;">{{ message }}</p>
         <br>
-        <textarea v-model="message" placeholder="add multiple lines"></textarea>
+        <input v-model.trim="message" placeholder="add multiple lines">
     </div>
     <div id="checkbox">
         <h2>checkbox</h2>
@@ -44,6 +44,7 @@
         <span>Picked: {{ picked }}</span>
     </div>
     <div id="example-5">
+        <h2>单选列表：</h2>
         <select v-model="selected">
             <option disabled value="">请选择</option>
             <option>A</option>
@@ -51,6 +52,29 @@
             <option>C</option>
         </select>
         <span>Selected: {{ selected }}</span>
+    </div>
+    <div id="example-6">
+        <h2>多选列表：</h2>
+        <select v-model="selected" multiple style="width: 50px;">
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <br>
+        <span>Selected: {{ selected }}</span>
+        <br>
+        <select v-model="selected1">
+            <option v-for="option in options" v-bind:value="option.value">{{ option.text }}</option>
+        </select>
+        <span>Selected: {{ selected1 }}</span>
+        <br>
+        <!-- 当选中时，`picked` 为字符串 "a" -->
+        <input type="radio" v-model="picked" value="a">
+        <p>{{picked}}</p>
+        <!-- `toggle` 为 true 或 false -->
+        <!--但是有时我们想绑定 value 到 Vue 实例的一个动态属性上，这时可以用 v-bind 实现，并且这个属性的值可以不是字符串。-->
+        <input type="checkbox" v-model="toggle" v-bind:true-value="a" v-bind:false-value="b">
+        <p>{{toggle}}</p>
     </div>
 </div>
 <script>
@@ -82,6 +106,22 @@
         el: '#example-5',
         data: {
             selected: ''
+        }
+    });
+    var vm6 = new Vue({
+        el: '#example-6',
+        data: {
+            a:'t',
+            b:'n',
+            selected: [],
+            selected1: 'A',
+            options: [
+                { text: 'One', value: 'A' },
+                { text: 'Two', value: 'B' },
+                { text: 'Three', value: 'C' }
+            ],
+            picked:'',
+            toggle:''
         }
     })
 </script>
