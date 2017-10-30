@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>自定义指令</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <!--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->
+    <script src="../../node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+<div class="content">
+   <h1>钩子函数</h1>
+
+    指令定义函数提供了几个钩子函数 (可选)：
+    <ul>
+        <li><p><code>bind</code>：只调用一次，指令第一次绑定到元素时调用，用这个钩子函数可以定义一个在绑定时执行一次的初始化动作。</p>
+        </li>
+        <li><p><code>inserted</code>：被绑定元素插入父节点时调用 (父节点存在即可调用，不必存在于 document 中)。</p>
+        </li>
+        <li><p><code>update</code>：所在组件的 VNode 更新时调用，<strong>但是可能发生在其孩子的 VNode 更新之前</strong>。指令的值可能发生了改变也可能没有。但是你可以通过比较更新前后的值来忽略不必要的模板更新 (详细的钩子函数参数见下)。</p>
+        </li>
+        <li><p><code>componentUpdated</code>：所在组件的 VNode <strong>及其孩子的 VNode</strong> 全部更新时调用。</p>
+        </li>
+        <li><p><code>unbind</code>：只调用一次，指令与元素解绑时调用。</p>
+        </li>
+    </ul>
+    <div id="simplest-directive-example" class="demo">
+        <input v-focus>
+    </div>
+    <!--<div id="hook-arguments-example" v-demo:foo.a.b="message"></div>-->
+    <div >
+        <div id="demo1" v-demo="{ color: 'green', text: 'hello!' }">22222222</div>
+    </div>
+</div>
+<script>
+    // 注册一个全局自定义指令 v-focus
+//    Vue.directive('focus', {
+//        // 当绑定元素插入到 DOM 中。
+//        inserted: function (el) {
+//            // 聚焦元素
+//            el.focus()
+//        }
+//    });
+    new Vue({
+        el: '#simplest-directive-example',
+        directives: {
+            focus: {
+                // 指令的定义
+                inserted: function (el) {
+                    el.focus()
+                }
+            }
+        }
+    });
+//    Vue.directive('demo', {
+//        bind: function (el, binding, vnode) {
+//            var s = JSON.stringify;
+//            el.innerHTML =
+//                'name: '       + s(binding.name) + '<br>' +
+//                'value: '      + s(binding.value) + '<br>' +
+//                'expression: ' + s(binding.expression) + '<br>' +
+//                'argument: '   + s(binding.arg) + '<br>' +
+//                'modifiers: '  + s(binding.modifiers) + '<br>' +
+//                'vnode keys: ' + Object.keys(vnode).join(', ')
+//        }
+//    });
+//    new Vue({
+//        el: '#hook-arguments-example',
+//        data: {
+//            message: 'hello!'
+//        }
+//    });
+//    Vue.directive('demo', function (el, binding) {
+//        console.log(binding.value.color) // => "white"
+//        console.log(binding.value.text)  // => "hello!"
+//    });
+    new Vue({
+        el: '#demo1',
+        directives: {
+            demo: {
+                bind: function (el,binding) {
+                    el.style.backgroundColor = binding.value.color;
+                    console.log(binding.value.color); // => "white"
+                    console.log(binding.value.text)  // => "hello!"
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>
