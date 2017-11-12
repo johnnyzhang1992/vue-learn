@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>渲染函数 & JSX</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <!--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->
+    <script src="../../node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+<div class="content">
+    <div id='example'>
+        <anchored-heading :level="1"><span>child-text</span> Hello world!</anchored-heading>
+    </div>
+    <div id="example1"></div>
+    <div id="example2"></div>
+
+</div>
+<script>
+    var getChildrenTextContent = function (children) {
+        return children.map(function (node) {
+            return node.children
+                ? getChildrenTextContent(node.children)
+                : node.text
+        }).join('')
+    };
+    Vue.component('anchored-heading', {
+        render: function (createElement) {
+            // create kebabCase id
+            var headingId = getChildrenTextContent(this.$slots.default)
+                .toLowerCase()
+                .replace(/\W+/g, '-')
+                .replace(/(^\-|\-$)/g, '');
+            return createElement(
+                'h' + this.level,
+                {
+                    'class':{
+                        foo: true,
+                        bar: false
+                    },
+                    style: {
+                        color: 'red',
+                        fontSize: '14px'
+                    }
+                },
+                [
+                    createElement('a', {
+                        attrs: {
+                            name: 'create_anchor',
+                            href: '#' + headingId
+                        }
+                    }, this.$slots.default)
+                ]
+            )
+        },
+        props: {
+            level: {
+                type: Number,
+                required: true
+            }
+        }
+    });
+    new Vue({
+        el: '#example'
+
+    });
+    new Vue({
+        el: '#example1',
+        data:{
+            items: [
+//                {
+//                    'name':'johnny'
+//                },{
+//                    'name':'jack'
+//                },{
+//                    'name':'mike'
+//                }
+            ],
+            set:      {
+                'class':{
+                    foo: true,
+                    bar: false
+                },
+                style: {
+                    color: 'red',
+                    fontSize: '14px'
+                }
+            }
+        },
+        render: function (createElement) {
+            if (this.items.length) {
+                return createElement('ul', this.items.map(function (item) {
+                    return createElement('li', item.name)
+                }))
+            } else {
+                return createElement('p', 'No items found.')
+            }
+        }
+    });
+    new Vue({
+        el:'#example2',
+        render: function (createElement) {
+            var self = this;
+            return createElement('input', {
+                'class':{
+                  list:true
+                },
+                domProps: {
+                    value: self.value
+                },
+                on: {
+                    input: function (event) {
+                        self.value = event.target.value;
+                        self.$emit('input', event.target.value)
+                    }
+                }
+            })
+        }
+    })
+</script>
+</body>
+</html>
