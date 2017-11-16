@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>动态匹配</title>
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<div class="content">
+    <h1>Vue 路由</h1>
+    <div id="app">
+        <h1>Hello App!</h1>
+        <p>
+            <!-- 使用 router-link 组件来导航. -->
+            <!-- 通过传入 `to` 属性指定链接. -->
+            <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
+            <router-link to="/user/1">user:1</router-link>
+            <router-link to="/user/2">user:2</router-link>
+        </p>
+        <!-- 路由出口 -->
+        <!-- 路由匹配到的组件将渲染在这里 -->
+        <router-view></router-view>
+    </div>
+</div>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<script>
+    const User = {
+        template: '<div>User {{ $route.params.id }}</div>',
+        watch: {
+            '$route' (to, from) {
+                console.log(to);
+                console.log(from)
+                // 对路由变化作出响应...
+            }
+        }
+//        beforeRouteUpdate (to, from, next) {
+//            // react to route changes...
+//            // don't forget to call next()
+//        }
+    };
+    const router = new VueRouter({
+        routes: [
+            // 动态路径参数 以冒号开头
+            { path: '/user/:id', component: User }
+        ]
+    });
+    const app = new Vue({
+        router
+    }).$mount('#app');
+</script>
+</body>
+</html>

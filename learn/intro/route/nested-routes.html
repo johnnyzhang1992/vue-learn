@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>嵌套路由</title>
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<div class="content">
+    <h1>Vue 路由</h1>
+    <div id="app">
+        <h1>Hello App!</h1>
+        <p>
+            <!-- 使用 router-link 组件来导航. -->
+            <!-- 通过传入 `to` 属性指定链接. -->
+            <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
+            <p><button v-on:click="goback">后退</button></p>
+            <router-link to="/user/foo">/user/foo</router-link>
+            <router-link to="/user/foo/profile">/user/foo/profile</router-link>
+            <router-link to="/user/foo/posts">/user/foo/posts</router-link>
+        </p>
+        <!-- 路由出口 -->
+        <!-- 路由匹配到的组件将渲染在这里 -->
+        <transition name="fade">
+            <router-view></router-view>
+        </transition>
+    </div>
+</div>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<script>
+    const User = {
+        template: `
+    <div class="user">
+      <h2>User {{ $route.params.id }}</h2>
+       <transition name="fade">
+          <router-view></router-view>
+       </transition>
+    </div>
+  `
+    };
+    const UserProfile = {
+        template:'<div>user profile</div>',
+    };
+    const UserPosts = {template:'<div>user posts</div>'};
+    const router = new VueRouter({
+        routes: [
+            {
+                path: '/user/:id',
+                component: User,
+                name: 'user',
+                children: [
+                    {
+                        path: 'profile',
+                        component: UserProfile
+                    },
+                    {
+                        path: 'posts',
+                        component: UserPosts
+                    }
+                ]
+            }
+        ]
+    });
+
+    const app = new Vue({
+        router,
+        methods: {
+            goback: function () {
+                router.go(-1);
+            }
+        }
+    }).$mount('#app');
+</script>
+</body>
+</html>
