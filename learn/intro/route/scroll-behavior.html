@@ -20,13 +20,21 @@
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 <script>
-    const Home = { template: '<div>home</div>' };
+    const Home = {
+        template:
+            `
+            <div>
+                <router-link v-on:click="goback">返回</router-link>
+            </div>
+            <div>home</div>
+        `
+    };
     const Foo = { template: '<div>foo</div>' };
     const Bar = {
         template: `
     <div>
       bar
-      <div style="height:500px"></div>
+      <div style="height:500px">{{ this.$router.options}}</div>
       <p id="anchor">Anchor</p>
     </div>
   `
@@ -85,6 +93,12 @@
       <router-view class="view"></router-view>
     </div>
   `
+        ,
+        methods: {
+            goback: function () {
+                router.back()
+            }
+        }
     }).$mount('#app')
 </script>
 </body>
